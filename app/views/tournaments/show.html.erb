@@ -1,0 +1,24 @@
+<h2><%= @tournament.name %></h2>
+<h4><%= @tournament.time %> | <%= @tournament.tournament_type %></h4>
+<hr>
+<h4>Rule:<%= link_to @tournament.rule, @tournament.rule, target: "_blank" %></h4>
+<h4>URL:<%= link_to @tournament.url, @tournament.url, target: "_blank" %></h4>
+<%= link_to 'Edit', edit_tournament_path(@tournament), class: "btn btn-success" %>
+<hr>
+<table class="table table-striped" style="text-align: center">
+  <tbody>
+    <% @tournament.games.each do |game| %>
+      <tr>
+        <td style="vertical-align: middle; font-size: 15px;"><b><%= game.player1.name %></b> (<%= game.player1belo %>→<%= game.player1aelo %>) <%= image_tag game.team1.logo, class: "logo" %></td>
+        <td style="vertical-align: middle; font-size: 15px;"><%=game.result_in_text %><br><%= game.game_type %></td>
+        <td style="vertical-align: middle; font-size: 15px;"><%= image_tag game.team2.logo, class: "logo" %> <b><%= game.player2.name %></b> (<%= game.player2belo %>→<%= game.player2aelo %>)</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Submit a match', new_game_path(tournament_id: @tournament.id), class: "btn btn-success" %>
+<style>
+ .logo {
+   height: 50px;
+ }
+</style>

@@ -1,0 +1,38 @@
+<div class="random-div">
+<% (1..3).to_a.each do |i| %>
+  <button class="btn group_btn <%= 'btn-success' if i==1 %>" value="<%= i %>">Group <%= i %></button>
+<% end %>
+<hr>
+<button class="btn btn-success" id="random_btn">RANDOM</button>
+<button class="btn btn-success" id="reset_btn">RESET</button>
+<hr>
+<img id="logo" class="logo" src="" />
+<h2 id="team_name"></h2>
+<style>
+  .logo {
+      height: 100px;
+  }
+  .random-div {
+    text-align: center;
+  }
+</style>
+<script>
+  var current_group = 1;
+  var teams = <%= raw Team.all.map{|t| [t.name, t.logo]} %>;
+  var groups = <%= raw Team::LEVEL %>;
+  $("#random_btn").click(function(){
+    var current_group_array = groups[current_group-1];
+    var team = teams[current_group_array[Math.floor(Math.random()*current_group_array.length)]-1];
+    $("#logo").attr("src",team[1]);
+    $("#team_name").html(team[0]);
+  });
+  $("#reset_btn").click(function(){
+    $("#logo").attr("src","https://tky-chat-work-appdata.s3.amazonaws.com/icon/441/441115.png");
+    $("#team_name").html("");
+  });
+  $(".group_btn").click(function(){
+    $(".group_btn").removeClass("btn-success");
+    $(this).addClass("btn-success");
+    current_group = $(this).val();
+  });
+</script>

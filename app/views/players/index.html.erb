@@ -1,0 +1,25 @@
+<h3>ELO RANKING</h3>
+<table class="table table-striped" style="text-align: center">
+  <thead>
+    <tr>
+      <th style="text-align: center">Rank</th>
+      <th style="text-align: center">Name</th>
+      <th style="text-align: center">Image</th>
+      <th style="text-align: center">Played</th>
+      <th style="text-align: center">Elo</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @players.each_with_index do |player, i| %>
+      <tr>
+        <td style="vertical-align: middle; font-size: 15px;"><%= i + 1 %></td>
+        <td style="vertical-align: middle; font-size: 15px;"><%= player.name %></td>
+        <td><%= link_to image_tag(player.image_url, style: "width: 100px"), player_path(player.id) %></td>
+        <td style="vertical-align: middle; font-size: 15px;"><%= player.games.count %> game(s)</td>
+        <td style="vertical-align: middle; font-size: 15px;"><%= player.elo %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

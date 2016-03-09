@@ -1,0 +1,26 @@
+<div class="profile">
+  <%= image_tag @player.image_url %>
+  <hr>
+  <h3><%= @player.name %> - <%= @player.elo %></h3>
+  <hr>
+  <table class="table table-striped" style="text-align: center">
+    <tbody>
+      <% @player.games.each do |game| %>
+        <tr>
+          <td style="vertical-align: middle; font-size: 15px;"><b><%= game.player1.name %></b> (<%= game.player1belo %>→<%= game.player1aelo %>) <%= image_tag game.team1.logo, class: "logo" %></td>
+          <td style="vertical-align: middle; font-size: 15px;"><%=game.result_in_text %></td>
+          <td style="vertical-align: middle; font-size: 15px;"><%= image_tag game.team2.logo, class: "logo" %> <b><%= game.player2.name %></b> (<%= game.player2belo %>→<%= game.player2aelo %>)</td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .profile {
+    text-align: center;
+  }
+  .logo {
+    height: 50px;
+  }
+</style>

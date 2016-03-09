@@ -1,0 +1,17 @@
+<h2>Tournaments</h2>
+<table class="table table-striped">
+  <tbody>
+    <% @tournaments.each do |tournament| %>
+      <tr>
+        <td><%= link_to tournament.name, tournament %></td>
+        <td><%= tournament.time %></td>
+        <td><%= tournament.tournament_type %></td>
+        <td><%= link_to tournament.url, tournament.url, target: "_blank" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Create Tournament', new_tournament_path, class: "btn btn-success" %>

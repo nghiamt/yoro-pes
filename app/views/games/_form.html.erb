@@ -1,0 +1,34 @@
+<%= form_for(@game) do |f| %>
+  <hr>
+  <div class="field col-md-4">
+    <%= f.collection_select :player1id, Player.all, :id, :name %>
+    <%= f.collection_select :team1id, Team.all, :id, :name %>
+  </div>
+  <div class="field col-md-4">
+    <%= f.collection_select :tournament_id, Tournament.all, :id, :name, {selected: params[:tournament_id]} %>
+    <%= f.text_field :game_type %>
+    <hr>
+    <%= f.select :player1goal, 0..10 %> - <%= f.select :player2goal, 0..10 %>
+  </div>
+  <div class="field col-md-4">
+    <%= f.collection_select :player2id, Player.all, :id, :name %>
+    <%= f.collection_select :team2id, Team.all, :id, :name %>
+  </div>
+  <div style="clear:both;"></div>
+  <hr>
+  <div class="actions">
+    <%= f.submit "SUBMIT GAME", class: "btn btn-success" %>
+  </div>
+<% end %>
+<style>
+  .field, .actions {
+    text-align: center;
+  }
+  
+  .field > select {
+    height: 50px;
+    font-size: 35px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+</style>

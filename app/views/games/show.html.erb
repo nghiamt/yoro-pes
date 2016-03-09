@@ -1,0 +1,37 @@
+<div class="col-md-4">
+  <%= image_tag @game.player1.image_url %> <%= image_tag @game.team1.logo, class: "logo" %>
+  <hr>
+  <%= @game.player1.name %>
+  <hr>
+  <%= @game.player1belo %>→<%= @game.player1aelo %>
+</div>
+<div class="col-md-4">
+  <%= @game.tournament.name %><br/>
+  <%= link_to "Back to tournament", tournament_path(@game.tournament), class: "btn btn-success" %>
+  <hr>
+  <span class="score"><%= @game.result_in_text %></span>
+  <hr>
+  <%= @game.game_type %>
+</div>
+<div class="col-md-4">
+  <%= image_tag @game.team2.logo, class: "logo" %> <%= image_tag @game.player2.image_url %>
+  <hr>
+  <%= @game.player2.name %>
+  <hr>
+  <%= @game.player2belo %>→<%= @game.player2aelo %>
+</div>
+
+<style>
+ .col-md-4 {
+   text-align: center;
+   font-size: 20px;
+ }
+ 
+ .logo {
+   height: 100px;
+ }
+ 
+ .score {
+   font-size: 50px;
+ }
+</style>
