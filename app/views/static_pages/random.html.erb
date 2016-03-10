@@ -1,38 +1,92 @@
+<div id="loading"></div>
 <div class="random-div">
-<% (1..3).to_a.each do |i| %>
-  <button class="btn group_btn <%= 'btn-success' if i==1 %>" value="<%= i %>">Group <%= i %></button>
-<% end %>
-<hr>
-<button class="btn btn-success" id="random_btn">RANDOM</button>
-<button class="btn btn-success" id="reset_btn">RESET</button>
-<hr>
-<img id="logo" class="logo" src="" />
-<h2 id="team_name"></h2>
+  <div class="col-md-12">
+    <% (1..3).to_a.each do |i| %>
+      <div class="col-md-4">
+        <div class="group">
+          <button class="btn group_btn <%= 'btn-success' if i==1 %>" value="<%= i %>">
+            Group <%= i %>
+          </button>
+        </div>
+        <div>
+          <% Team::LEVEL[i-1].each do |k| %>
+            <%= image_tag(Team.all[k-1].logo, style: "width: 50px;") %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <hr>
+  <div class="col-md-12 group">
+    <button class="btn btn-success" id="random-btn">RANDOM</button>
+    <button class="btn btn-success" id="reset-btn">RESET</button>
+  </div>
+  <hr>
+  <img id="logo" class="logo" src="https://tky-chat-work-appdata.s3.amazonaws.com/icon/441/441115.png" />
+  <h2 id="team-name"></h2>
+</div>
+
 <style>
+  .group {
+    padding: 20px;
+  }
   .logo {
-      height: 100px;
+    height: 100px;
   }
   .random-div {
     text-align: center;
   }
+  #loading {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url(http://smallenvelop.com/wp-content/uploads/2014/08/Preloader_3.gif) center no-repeat #fff;
+  }
 </style>
+
 <script>
+  $("#loading").show();
+
+  $(window).load(function(){
+    $("#loading").hide();
+  });
+
   var current_group = 1;
   var teams = <%= raw Team.all.map{|t| [t.name, t.logo]} %>;
   var groups = <%= raw Team::LEVEL %>;
-  $("#random_btn").click(function(){
+
+  $("#random-btn").click(function(){
+    $("#random-btn").attr("disabled", true);
     var current_group_array = groups[current_group-1];
-    var team = teams[current_group_array[Math.floor(Math.random()*current_group_array.length)]-1];
-    $("#logo").attr("src",team[1]);
-    $("#team_name").html(team[0]);
+    var num = 0;
+    var random = setInterval(function(){
+      var team = teams[current_group_array[Math.floor(Math.random()*current_group_array.length)]-1];
+      $("#logo").attr("src",team[1]);
+      $("#team-name").html(team[0]);
+      num += 1;
+      if (num == 10){
+        clearInterval(random);
+        $("#random-btn").attr("disabled", false);
+      }
+    }, 100);
   });
-  $("#reset_btn").click(function(){
-    $("#logo").attr("src","https://tky-chat-work-appdata.s3.amazonaws.com/icon/441/441115.png");
-    $("#team_name").html("");
+
+  $("#reset-btn").click(function(){
+    reset();
   });
+
   $(".group_btn").click(function(){
+    reset();
     $(".group_btn").removeClass("btn-success");
     $(this).addClass("btn-success");
     current_group = $(this).val();
   });
+
+  function reset(){
+    $("#logo").attr("src","https://tky-chat-work-appdata.s3.amazonaws.com/icon/441/441115.png");
+    $("#team-name").html("");
+  }
 </script>
