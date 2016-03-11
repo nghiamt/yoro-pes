@@ -16,11 +16,10 @@
     <% @teams.each do |team| %>
       <tr>
         <td><%= team.name %></td>
-        <td><%= team.logo %></td>
+        <td><%= image_tag team.logo, class: "logo" %></td>
         <td><%= team.rank %></td>
-        <td><%= link_to 'Show', team %></td>
-        <td><%= link_to 'Edit', edit_team_path(team) %></td>
-        <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Edit', edit_team_path(team), class: "btn btn-success" %></td>
+        <td><%= link_to 'Destroy', team, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-success" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -29,3 +28,9 @@
 <br>
 
 <%= link_to 'New Team', new_team_path %>
+
+<style>
+  .logo {
+    height: 100px;
+  }
+</style>
