@@ -31,6 +31,18 @@
     <%= f.label :url %><br>
     <%= f.text_field :url %>
   </div>
+  <div class="field">
+    <%= "First place" %><br>
+    <%= f.collection_select :first, Player.all, :id, :name, :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= "Second place" %><br>
+    <%= f.collection_select :second, Player.all, :id, :name, :include_blank => true %>
+  </div>
+  <div class="field">
+    <%= "Third place" %><br>
+    <%= f.collection_select :third, Player.all, :id, :name, :include_blank => true %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
