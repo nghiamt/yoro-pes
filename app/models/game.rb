@@ -1,3 +1,4 @@
+require 'csv'
 class Game < ActiveRecord::Base
     belongs_to :player1, class_name: "Player", foreign_key: "player1id"
     belongs_to :player2, class_name: "Player", foreign_key: "player2id"
@@ -5,6 +6,21 @@ class Game < ActiveRecord::Base
     belongs_to :team2, class_name: "Team", foreign_key: "team2id"
     belongs_to :tournament
     after_create :set_belo_and_aelo_and_result
+    
+    TEAMS = {"bayern"=>1, "real"=>2, "barca"=>3, "psg"=>4, "manc"=>5, "chelsea"=>6, "juve"=>7, "arsenal"=>8, "dortmund"=>9, "manu"=>10, "atletico"=>11, "roma"=>12, "everton"=>13, "liverpool"=>14, "milan"=>15, "inter"=>16, "napoli"=>17, "lazio"=>18, "spurs"=>19}
+    
+    class << self
+      def batch_create! tournament_id, filepath
+        CSV.foreach(filepath) do |row|
+          if row[0] == "no"
+            next
+          end
+          @game = self.create player1id: Player.find_by_name(row[2]).id, player2id: Player.find_by_name(row[4]).id,
+            team1id: TEAMS[row[6].downcase], team2id: TEAMS[row[7].downcase], 
+            player1goal: row.last.first.to_i, player2goal: row.last.last.to_i, tournament_id: tournament_id, game_type: row[1]
+        end
+      end
+    end
     
     def set_belo_and_aelo_and_result
       self.result = if self.player1goal > self.player2goal
@@ -26,7 +42,7 @@ class Game < ActiveRecord::Base
           p1.wins_from p2
       end
       self.player1aelo = p1.rating
-      self.player2aelo = p2.rating
+      self.player2aelo = self.player2belo - self.player1aelo + self.player1belo
       self.save
       player1.update_attributes elo: self.player1aelo
       player2.update_attributes elo: self.player2aelo

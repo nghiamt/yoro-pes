@@ -26,9 +26,9 @@ class TournamentsController < ApplicationController
   # POST /tournaments.json
   def create
     @tournament = Tournament.new(tournament_params)
-
     respond_to do |format|
       if @tournament.save
+        Game.batch_create!(@tournament.id, params[:data_file].path) if params[:data_file]
         format.html { redirect_to @tournament, notice: 'Tournament was successfully created.' }
         format.json { render :show, status: :created, location: @tournament }
       else
@@ -43,6 +43,7 @@ class TournamentsController < ApplicationController
   def update
     respond_to do |format|
       if @tournament.update(tournament_params)
+        Game.batch_create!(@tournament.id, params[:data_file].path) if params[:data_file]
         format.html { redirect_to @tournament, notice: 'Tournament was successfully updated.' }
         format.json { render :show, status: :ok, location: @tournament }
       else
