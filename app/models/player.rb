@@ -4,6 +4,8 @@ class Player < ActiveRecord::Base
         DRAWN: 0,
         LOST: -1
     }
+    GROUP_DIVIDE = [0,3,6,10]
+    GROUP_COLOR = %w(#ea6153 #2980b9 #27ae60)
 
     has_many :host_games, class_name: "Game", foreign_key: "player1id"
     has_many :guest_games, class_name: "Game", foreign_key: "player2id"
