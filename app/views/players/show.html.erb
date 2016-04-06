@@ -1,7 +1,7 @@
 <div class="profile">
   <%= image_tag @player.image_url %>
   <hr>
-  <h3><%= @player.name %> - <%= @player.elo %></h3>
+  <h3><%= @player.name %> - <%= @player.elo %> - (<%= "W#{@player.won_games.count}-D#{@player.drawn_games.count}-L#{@player.lost_games.count}" %>)</h3>
   <hr>
   <table class="table table-striped" style="text-align: center">
     <tbody>

@@ -5,7 +5,10 @@ class PlayersController < ApplicationController
   # GET /players
   # GET /players.json
   def index
-    @players = Player.order elo: :desc
+    @players = Player.order(elo: :desc).to_a
+    @group1 = @players.first(3)
+    @group2 = @players.first(6) - @group1 = @players.first(3)
+    @group3 = @players.last(4)
   end
 
   # GET /players/1
