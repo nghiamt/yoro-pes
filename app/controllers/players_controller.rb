@@ -23,6 +23,8 @@ class PlayersController < ApplicationController
         [i+1, g.player2aelo]
       end
     end
+    @min = @games_data.map(&:last).min
+    @max = @games_data.map(&:last).max
   end
 
   # GET /players/new
