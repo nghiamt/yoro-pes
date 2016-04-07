@@ -5,12 +5,18 @@ class TournamentsController < ApplicationController
   # GET /tournaments
   # GET /tournaments.json
   def index
-    @tournaments = Tournament.all
+    @cm = Tournament.find 1
+    @tournaments = Tournament.where.not(id:1).sort{|g| g.created_at.to_i}
   end
 
   # GET /tournaments/1
   # GET /tournaments/1.json
   def show
+    if @tournament.id == 1
+      @games = @tournament.games.sort{|g| g.created_at.to_i}
+    else
+      @games = @tournament.games.sort{|g| -g.created_at.to_i}
+    end
   end
 
   # GET /tournaments/new
@@ -26,9 +32,9 @@ class TournamentsController < ApplicationController
   # POST /tournaments.json
   def create
     @tournament = Tournament.new(tournament_params)
-
     respond_to do |format|
       if @tournament.save
+        Game.batch_create!(@tournament.id, params[:data_file].path) if params[:data_file]
         format.html { redirect_to @tournament, notice: 'Tournament was successfully created.' }
         format.json { render :show, status: :created, location: @tournament }
       else
@@ -43,6 +49,7 @@ class TournamentsController < ApplicationController
   def update
     respond_to do |format|
       if @tournament.update(tournament_params)
+        Game.batch_create!(@tournament.id, params[:data_file].path) if params[:data_file]
         format.html { redirect_to @tournament, notice: 'Tournament was successfully updated.' }
         format.json { render :show, status: :ok, location: @tournament }
       else

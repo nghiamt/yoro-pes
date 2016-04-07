@@ -1,12 +1,23 @@
+<h2>Challenge Matches</h2>
+<table class="table table-striped">
+  <tbody>
+    <tr>
+      <td width="20%"><%= link_to @cm.name, @cm %></td>
+      <td width="20%"><%= @cm.time %></td>
+      <td width="20%"><%= @cm.tournament_type %></td>
+      <td width="40%"><%= link_to @cm.url, @cm.url, target: "_blank" %></td>
+    </tr>
+  </tbody>
+</table>
 <h2>Tournaments</h2>
 <table class="table table-striped">
   <tbody>
     <% @tournaments.each do |tournament| %>
       <tr>
-        <td><%= link_to tournament.name, tournament %></td>
-        <td><%= tournament.time %></td>
-        <td><%= tournament.tournament_type %></td>
-        <td><%= link_to tournament.url, tournament.url, target: "_blank" %></td>
+        <td width="20%"><%= link_to tournament.name, tournament %></td>
+        <td width="20%"><%= tournament.time %></td>
+        <td width="20%"><%= tournament.tournament_type %></td>
+        <td width="40%"><%= link_to tournament.url, tournament.url, target: "_blank" %></td>
       </tr>
     <% end %>
   </tbody>

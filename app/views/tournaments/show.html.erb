@@ -13,7 +13,7 @@
 <hr>
 <table class="table table-striped">
   <tbody>
-    <% @tournament.games.sort_by(&:created_at).each do |game| %>
+    <% @games.each do |game| %>
       <tr>
         <td style="vertical-align: middle; font-size: 15px;text-align: right;"><%= game.player1belo %>→<%= game.player1aelo %><%= image_tag game.player1.image_url, class: "logo" %><%= image_tag game.team1.logo, class: "logo" %></td>
         <td style="vertical-align: middle; font-size: 15px;text-align: center;"><b style="font-size:30px;"><%=game.result_in_text %></b><br><%= game.game_type %></td>
