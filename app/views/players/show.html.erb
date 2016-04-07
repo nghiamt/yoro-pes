@@ -1,8 +1,10 @@
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
 <div class="profile">
   <%= image_tag @player.image_url %>
   <hr>
   <h3><%= @player.name %> - <%= @player.elo %> - (<%= "W#{@player.won_games.count}-D#{@player.drawn_games.count}-L#{@player.lost_games.count}" %>)</h3>
   <hr>
+  <%= line_chart @games_data  %>
   <table class="table table-striped" style="text-align: center">
     <tbody>
       <% @player.games.each do |game| %>

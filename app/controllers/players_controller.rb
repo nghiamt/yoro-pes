@@ -14,6 +14,15 @@ class PlayersController < ApplicationController
   # GET /players/1
   # GET /players/1.json
   def show
+    @games = @player.games.sort{|g| -g.created_at.to_i}
+    @games_data = []
+    @games.each_with_index do |g, i|
+      @games_data << if g.player1id == @player.id
+        [i+1, g.player1aelo]
+      else
+        [i+1, g.player2aelo]
+      end
+    end
   end
 
   # GET /players/new
