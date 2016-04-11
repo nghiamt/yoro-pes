@@ -13,9 +13,9 @@ class TournamentsController < ApplicationController
   # GET /tournaments/1.json
   def show
     if @tournament.id == 1
-      @games = @tournament.games.sort{|g| g.created_at.to_i}
+      @games = @tournament.games.sort_by(&:id).reverse
     else
-      @games = @tournament.games.sort{|g| -g.created_at.to_i}
+      @games = @tournament.games.sort_by(&:id)
     end
   end
 

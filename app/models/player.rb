@@ -11,6 +11,14 @@ class Player < ActiveRecord::Base
     def games
         (host_games.to_a | guest_games.to_a).sort_by &:created_at
     end
+    
+    def elo_data_by_event
+        data = []
+        Event.all.sort_by(&:id).each do |e|
+            data << [e.name, eval(e.elos)[self.id]]
+        end
+        data
+    end
 
     GAME_RESULT.keys.each do |const_name|
       define_method ("#{const_name.downcase}_games") {

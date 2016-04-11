@@ -14,7 +14,7 @@ class PlayersController < ApplicationController
   # GET /players/1
   # GET /players/1.json
   def show
-    @games = @player.games.sort{|g| -g.created_at.to_i}
+    @games = @player.games.sort_by(&:id)
     @games_data = []
     @games.each_with_index do |g, i|
       @games_data << if g.player1id == @player.id
@@ -22,6 +22,10 @@ class PlayersController < ApplicationController
       else
         [i+1, g.player2aelo]
       end
+    end
+    @events_data = [];
+    Event.all.sort_by(&:id).each do |e|
+      @events_data << [e.name, eval(e.elos)[@player.id]]
     end
     @min = @games_data.map(&:last).min
     @max = @games_data.map(&:last).max

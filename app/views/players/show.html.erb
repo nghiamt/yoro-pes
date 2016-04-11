@@ -5,6 +5,7 @@
   <h3><%= @player.name %> - <%= @player.elo %> - (<%= "W#{@player.won_games.count}-D#{@player.drawn_games.count}-L#{@player.lost_games.count}" %>)</h3>
   <hr>
   <%= line_chart @games_data, min: @min/100*100, max: (@max/100*100 + 100), discrete: true %>
+  <%= line_chart @events_data, min: @min/100*100, max: (@max/100*100 + 100), discrete: true %>
   <table class="table table-striped" style="text-align: center">
     <tbody>
       <% @player.games.each do |game| %>

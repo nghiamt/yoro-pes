@@ -15,9 +15,9 @@
   <tbody>
     <% @games.each do |game| %>
       <tr>
-        <td style="vertical-align: middle; font-size: 15px;text-align: right;"><%= game.player1belo %>→<%= game.player1aelo %><%= image_tag game.player1.image_url, class: "logo" %><%= image_tag game.team1.logo, class: "logo" %></td>
-        <td style="vertical-align: middle; font-size: 15px;text-align: center;"><b style="font-size:30px;"><%=game.result_in_text %></b><br><%= game.game_type %></td>
-        <td style="vertical-align: middle; font-size: 15px;text-align: left;"><%= image_tag game.team2.logo, class: "logo" %><%= image_tag game.player2.image_url, class: "logo" %><%= game.player2belo %>→<%= game.player2aelo %></td>
+        <td style="vertical-align: middle; font-size: 15px;text-align: right;"><%= game.player1belo %>→<%= game.player1aelo %><%= link_to image_tag(game.player1.image_url, class: "logo"), player_path(game.player1) %><%= image_tag game.team1.logo, class: "logo" %></td>
+        <td style="vertical-align: middle; font-size: 15px;text-align: center;"><b style="font-size:30px;"><%=game.result_in_text %></b><br><%= game.game_type %><%= game.created_at.strftime("%Y/%m/%d") if @tournament.id==1 %></td>
+        <td style="vertical-align: middle; font-size: 15px;text-align: left;"><%= image_tag game.team2.logo, class: "logo" %><%= link_to image_tag(game.player2.image_url, class: "logo"), player_path(game.player2) %><%= game.player2belo %>→<%= game.player2aelo %></td>
       </tr>
     <% end %>
   </tbody>
