@@ -9,6 +9,9 @@ class PlayersController < ApplicationController
     @group1 = @players.first(3)
     @group2 = @players.first(6) - @group1 = @players.first(3)
     @group3 = @players.last(4)
+    @all_elo = Event.all.inject([]){|s,e| s|=eval(e.elos).values}
+    @min = @all_elo.min - 20
+    @max = @all_elo.max + 20
   end
 
   # GET /players/1
@@ -23,12 +26,12 @@ class PlayersController < ApplicationController
         [i+1, g.player2aelo]
       end
     end
-    @events_data = [];
+    @events_data = []
     Event.all.sort_by(&:id).each do |e|
       @events_data << [e.name, eval(e.elos)[@player.id]]
     end
-    @min = @games_data.map(&:last).min
-    @max = @games_data.map(&:last).max
+    @min = @games_data.map(&:last).min - 20
+    @max = @games_data.map(&:last).max + 20
   end
 
   # GET /players/new
