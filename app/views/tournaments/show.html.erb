@@ -1,3 +1,5 @@
+<%= stylesheet_link_tag "//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" %>
+<%= javascript_include_tag "//code.jquery.com/ui/1.11.4/jquery-ui.js" %>
 <h2><%= @tournament.name %></h2>
 <h4><%= @tournament.time %> | <%= @tournament.tournament_type %></h4>
 <hr>
@@ -11,10 +13,18 @@
 <%= link_to 'Submit a match', new_game_path(tournament_id: @tournament.id), class: "btn btn-success" %>
 <%  end %>
 <hr>
+<% if @tournament.id == 1 %>
+  <center>
+    <input type="text" id="datepicker" class="form-control" readonly style="width: 25%; display: -webkit-inline-box" placeholder="Click here to choose a date">
+    <a class="btn btn-info" id="reset-button">Reset</a>
+  </center>
+  <br />
+<% end %>
+
 <table class="table table-striped">
-  <tbody>
+  <tbody class="games">
     <% @games.each do |game| %>
-      <tr>
+      <tr class=<%= game.created_at.strftime("%d%m%Y")%>>
         <td style="vertical-align: middle; font-size: 15px;text-align: right;"><%= game.player1belo %>→<%= game.player1aelo %><%= link_to image_tag(game.player1.image_url, class: "logo"), player_path(game.player1) %><%= image_tag game.team1.logo, class: "logo" %></td>
         <td style="vertical-align: middle; font-size: 15px;text-align: center;"><b style="font-size:30px;"><%=game.result_in_text %></b><br><%= game.game_type %><%= game.created_at.strftime("%Y/%m/%d") if @tournament.id==1 %></td>
         <td style="vertical-align: middle; font-size: 15px;text-align: left;"><%= image_tag game.team2.logo, class: "logo" %><%= link_to image_tag(game.player2.image_url, class: "logo"), player_path(game.player2) %><%= game.player2belo %>→<%= game.player2aelo %></td>
@@ -30,4 +40,32 @@
  .margin-image {
    margin-right: 50px;
  }
+
+ .match-day a{
+    color: red !important;
+ }
 </style>
+
+<script>
+  var game_dates = <%= raw @games.map{|game| game.created_at.strftime("%-d/%-m/%Y")}.uniq %>;
+
+  $(function() {
+    $("#datepicker").datepicker({
+      beforeShowDay: function(d) {
+        var date = d.getDate() + "/" + (d.getMonth() + 1) + "/" + d.getFullYear();
+        return [true, game_dates.indexOf(date) > -1 ? "match-day" : ""];
+      },
+      dateFormat: "dd/mm/yy"
+    })
+    .on("input change", function(e) {
+      var date_str = "." + e.target.value.replace(/\//g, "");
+      $(".games").children("tr").hide();
+      $(date_str).show();
+    });
+  });
+
+  $("#reset-button").on("click", function(){
+    $("#datepicker").datepicker("setDate", null);
+    $(".games").children("tr").show();
+  })
+</script>
