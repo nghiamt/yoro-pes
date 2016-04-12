@@ -4,8 +4,8 @@
   <hr>
   <h3><%= @player.name %> - <%= @player.elo %> - (<%= "W#{@player.won_games.count}-D#{@player.drawn_games.count}-L#{@player.lost_games.count}" %>)</h3>
   <hr>
-  <%= line_chart @games_data, min: @min, max: @max, discrete: true, library: {curveType: 'none'} %>
-  <%= line_chart @events_data, min: @min, max: @max, discrete: true, library: {curveType: 'none'}%>
+  <%= line_chart @events_data, min: @min, max: @max, discrete: true, library: {curveType: 'none', title: "ELO by events"}, id: "by_events" %>
+  <%= line_chart @games_data, min: @min, max: @max, discrete: true, library: {curveType: 'none', title: "ELO by matches"}, id: "by_games" %>
   <table class="table table-striped" style="text-align: center">
     <tbody>
       <% @games.each do |game| %>
@@ -27,3 +27,14 @@
     height: 50px;
   }
 </style>
+
+<script>
+$("#by_events").click(function(){
+  $("#by_events").hide(300);
+  $("#by_games").show(300);
+});
+$("#by_games").click(function(){
+  $("#by_games").hide(300);
+  $("#by_events").show(300);
+});
+</script>
